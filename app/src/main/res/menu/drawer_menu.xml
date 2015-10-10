@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/im_hungry_drawer_item"
+            android:checked="false"
+            android:icon="@drawable/ic_im_hungry"
+            android:title="I'm Hungry"/>
+        <item android:id="@+id/voting_pot_drawer_item"
+            android:checked="false"
+            android:icon="@drawable/ic_voting"
+            android:title="Voting Pot"/>
+        <item android:id="@+id/my_places_drawer_item"
+            android:checked="false"
+            android:icon="@drawable/ic_my_places"
+            android:title="My Places" />
+    </group>
+</menu>

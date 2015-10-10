@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SnappingSeekBar">
+        <attr name="snap_points" format="enum">
+            <enum name="Two" value="2"/>
+            <enum name="Three" value="3"/>
+            <enum name="Five" value="5"/>
+            <enum name="Six" value="6"/>
+        </attr>
+    </declare-styleable>
+</resources>
