@@ -6,4 +6,6 @@
 
     <string name="open_drawer">Swipe from the left</string>
     <string name="close_drawer">Swipe to the right</string>
+
+    <string name="action_add_place">Add Place</string>
 </resources>

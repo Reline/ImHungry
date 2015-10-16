@@ -37,7 +37,6 @@ public class ImHungryFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 }
