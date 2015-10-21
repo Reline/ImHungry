@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:slider="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_slider_price"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:textSize="20sp" />
-
-        <com.github.funnygopher.imhungry.Slider
-            android:id="@+id/slider_price"
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            slider:points="5" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/find_food_price_textview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <com.github.funnygopher.imhungry.Slider
+                android:id="@+id/find_food_price_slider"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                slider:points="5" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/find_food_button"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:text="Find me food!"
+            android:textColor="@color/icons" />
 
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

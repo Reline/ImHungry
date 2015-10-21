@@ -18,10 +18,10 @@ public class MyPlacesListAdapter extends BaseAdapter {
         this.places = places;
 
         List<Place> morePlaces = new ArrayList<>();
-        Place place1 = new Place("WichWich", "A good place for sandwiches!", Place.Price.KIND_OF_CHEAP, "The Address", true);
-        Place place2 = new Place("Wendy's", "It's a Wendy's...", Place.Price.CHEAP, "The Address", false);
-        Place place3 = new Place("Jimmy Johns", "Good cheap sandwiches", Place.Price.CHEAP, "The Address", false);
-        Place place4 = new Place("Shobu Fondue", "Shobu shobu!! Swish swish!!", Place.Price.EXPENSIVE, "The Address", true);
+        Place place1 = new Place("WichWich", "A good place for sandwiches!", Price.CHEAP, "The Address", true);
+        Place place2 = new Place("Wendy's", "It's a Wendy's...", Price.WELL_PRICED, "The Address", false);
+        Place place3 = new Place("Jimmy Johns", "Good cheap sandwiches", Price.WELL_PRICED, "The Address", false);
+        Place place4 = new Place("Shobu Fondue", "Shobu shobu!! Swish swish!!", Price.REALLY_EXPENSIVE, "The Address", true);
 
         for(int i = 1; i < 19; i++) {
             if(i % 4 == 0) {

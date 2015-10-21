@@ -1,7 +1,6 @@
 package com.github.funnygopher.imhungry;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,7 +43,7 @@ public class AddPlaceFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main2, menu);
+        inflater.inflate(R.menu.add_place_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 }
