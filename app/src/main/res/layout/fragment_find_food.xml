@@ -4,19 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/find_food_price_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <TextView
@@ -32,6 +32,28 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 slider:points="5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/find_food_distance_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/find_food_price_layout"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/find_food_distance_textview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <com.github.funnygopher.imhungry.Slider
+                android:id="@+id/find_food_distance_slider"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                slider:points="3" />
 
         </LinearLayout>
 
@@ -39,8 +61,9 @@
             android:id="@+id/find_food_button"
             android:layout_width="match_parent"
             android:layout_height="96dp"
+            android:layout_alignParentBottom="true"
             android:text="Find me food!"
-            android:textColor="@color/icons" />
+            android:textColor="@color/secondary_text" />
 
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

@@ -15,6 +15,9 @@ public class FindFoodFragment extends Fragment {
     private Slider mPriceSlider;
     private TextView mPriceText;
 
+    private Slider mDistanceSlider;
+    private TextView mDistanceText;
+
     private Button mButton;
 
     @Override
@@ -22,10 +25,6 @@ public class FindFoodFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_find_food, container, false);
 
         mPriceSlider = (Slider) view.findViewById(R.id.find_food_price_slider);
-        mPriceText = (TextView) view.findViewById(R.id.find_food_price_textview);
-        mPriceText.setText("$");
-
-        mButton = (Button) view.findViewById(R.id.find_food_button);
         mPriceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
             @Override
             public void onSliderChange(Slider slider, int index, int prevIndex) {
@@ -40,20 +39,48 @@ public class FindFoodFragment extends Fragment {
                 }
 
                 mPriceText.setText(moneyString);
-                mButton.setText("Find me " + Price.values()[index].toString() + " food!");
+                updateButtonText();
             }
         });
+        mPriceText = (TextView) view.findViewById(R.id.find_food_price_textview);
+        mPriceText.setText("$");
 
-        this.setHasOptionsMenu(true);
+        mDistanceSlider = (Slider) view.findViewById(R.id.find_food_distance_slider);
+        mDistanceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
+            @Override
+            public void onSliderChange(Slider slider, int index, int prevIndex) {
+                String distanceString = "";
+                mDistanceText.setTextSize(20);
+                for (int i = 0; i <= index; i ++) {
+                    distanceString += '>';
+                }
+
+                mDistanceText.setText(distanceString);
+                updateButtonText();
+            }
+        });
+        mDistanceText = (TextView) view.findViewById(R.id.find_food_distance_textview);
+        mDistanceText.setText(">");
+
+        mButton = (Button) view.findViewById(R.id.find_food_button);
+
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    private void updateButtonText() {
+        int priceIndex = mPriceSlider.getIndex();
+        int distanceIndex = mDistanceSlider.getIndex();
+        String buttonString = String.format("Find me %s food %s!",
+                Price.values()[priceIndex].toString(),
+                Distance.values()[distanceIndex].toString());
+        mButton.setText(buttonString);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        int index = mPriceSlider.getIndex();
-        mButton.setText("Find me " + Price.values()[index].toString() + " food!");
+        updateButtonText();
     }
 
     @Override
