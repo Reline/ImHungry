@@ -2,6 +2,7 @@ package com.github.funnygopher.imhungry;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,9 @@ public class FindFoodFragment extends Fragment {
     private TextView mDistanceText;
 
     private Button mButton;
+
+    private CardView mPlaceDetail;
+    private boolean invisible;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +66,21 @@ public class FindFoodFragment extends Fragment {
         mDistanceText = (TextView) view.findViewById(R.id.find_food_distance_textview);
         mDistanceText.setText(">");
 
+        mPlaceDetail = (CardView) view.findViewById(R.id.find_food_place_detail);
+        invisible = mPlaceDetail.getVisibility() == View.INVISIBLE;
+
         mButton = (Button) view.findViewById(R.id.find_food_button);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(invisible)
+                    mPlaceDetail.setVisibility(View.VISIBLE);
+                else
+                    mPlaceDetail.setVisibility(View.INVISIBLE);
+
+                invisible = mPlaceDetail.getVisibility() == View.INVISIBLE;
+            }
+        });
 
         setHasOptionsMenu(true);
         return view;

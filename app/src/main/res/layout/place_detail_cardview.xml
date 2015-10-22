@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/find_food_place_detail_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    cardview:cardCornerRadius="2dp"
+    cardview:elevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <!-- Place detaills go here! -->
+
+        <!-- Place name and price and distance -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/place_detail_card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="24dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="MyFoodPlace"
+                android:textColor="@color/primary_text"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/place_detail_card_price_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="Well Priced - 1.2 mi"
+                android:textColor="@color/secondary_text"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Place description -->
+        <TextView
+            android:id="@+id/place_detail_card_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="A really good food place that has really filling food that I can buy to eat!"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1F000000"/>
+
+        <!-- Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/place_detail_card_action_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:borderlessButtonStyle"
+                android:text="Directions"
+                android:textColor="@color/primary_dark"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
