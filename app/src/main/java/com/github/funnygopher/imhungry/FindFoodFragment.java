@@ -1,5 +1,7 @@
 package com.github.funnygopher.imhungry;
 
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -22,53 +24,41 @@ public class FindFoodFragment extends Fragment {
     private Button mButton;
 
     private CardView mPlaceDetail;
-    private boolean invisible;
+    private boolean invisible; // Temporary toggle value for running the cardview animation
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_food, container, false);
 
+        // The price slider and textview
         mPriceSlider = (Slider) view.findViewById(R.id.find_food_price_slider);
         mPriceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
             @Override
             public void onSliderChange(Slider slider, int index, int prevIndex) {
-                String moneyString = "";
-                mPriceText.setTextSize(20);
-                for (int i = 0; i <= index; i += 2) {
-                    moneyString += '$';
-                }
-
-                for (int i = 1; i <= index; i += 2) {
-                    mPriceText.setTextSize(20 + (10 * i));
-                }
-
-                mPriceText.setText(moneyString);
+                mPriceText.setText(Price.values()[index].toString());
                 updateButtonText();
             }
         });
         mPriceText = (TextView) view.findViewById(R.id.find_food_price_textview);
-        mPriceText.setText("$");
+        mPriceText.setText(Price.values()[mPriceSlider.getIndex()].toString());
 
+        // The distance slider and textview
         mDistanceSlider = (Slider) view.findViewById(R.id.find_food_distance_slider);
         mDistanceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
             @Override
             public void onSliderChange(Slider slider, int index, int prevIndex) {
-                String distanceString = "";
-                mDistanceText.setTextSize(20);
-                for (int i = 0; i <= index; i ++) {
-                    distanceString += '>';
-                }
-
-                mDistanceText.setText(distanceString);
+                mDistanceText.setText(Distance.values()[index].toString());
                 updateButtonText();
             }
         });
         mDistanceText = (TextView) view.findViewById(R.id.find_food_distance_textview);
-        mDistanceText.setText(">");
+        mDistanceText.setText(Distance.values()[mDistanceSlider.getIndex()].toString());
 
+        // The place detail card
         mPlaceDetail = (CardView) view.findViewById(R.id.find_food_place_detail);
         invisible = mPlaceDetail.getVisibility() == View.INVISIBLE;
 
+        // The find food button
         mButton = (Button) view.findViewById(R.id.find_food_button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +82,7 @@ public class FindFoodFragment extends Fragment {
         String buttonString = String.format("Find me %s food %s!",
                 Price.values()[priceIndex].toString(),
                 Distance.values()[distanceIndex].toString());
-        mButton.setText(buttonString);
+        mButton.setText("Find me food!");
     }
 
     @Override
@@ -103,7 +93,7 @@ public class FindFoodFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.find_food_actions, menu);
+        //inflater.inflate(R.menu.find_food_actions, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 }

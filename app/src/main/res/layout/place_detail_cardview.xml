@@ -67,11 +67,19 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/place_detail_card_action_button"
+                android:id="@+id/place_detail_card_action_button_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="?android:borderlessButtonStyle"
                 android:text="Directions"
+                android:textColor="@color/primary_dark"/>
+
+            <Button
+                android:id="@+id/place_detail_card_action_button_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:borderlessButtonStyle"
+                android:text="Info"
                 android:textColor="@color/primary_dark"/>
 
         </LinearLayout>
