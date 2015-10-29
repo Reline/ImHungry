@@ -13,8 +13,7 @@ public enum Distance {
         return value;
     }
 
-    @Override
-    public String toString() {
+    public String getReadableString() {
         String name = name().toLowerCase();
         StringBuilder nameBuilder = new StringBuilder();
         boolean space = false;

@@ -5,11 +5,19 @@ public class Place implements Comparable<Place> {
     public Long _id; // Used for Cupboard API
     private String name;
     private String description;
-    private Price price; // Not a monetary value. More of a scale from 1 - 5.
+    private int price; // Not a monetary value. More of a scale from 1 - 5.
     private String address;
     private boolean thisSpecificPlace;
 
-    public Place(String name, String description, Price price, String address, boolean thisSpecificPlace) {
+    public Place() {
+        name = "";
+        description = "";
+        price = Price.REALLY_CHEAP.getValue();
+        address = "";
+        thisSpecificPlace = false;
+    }
+
+    public Place(String name, String description, int price, String address, boolean thisSpecificPlace) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -25,7 +33,7 @@ public class Place implements Comparable<Place> {
         return description;
     }
 
-    public Price getPrice() {
+    public int getPrice() {
         return price;
     }
 

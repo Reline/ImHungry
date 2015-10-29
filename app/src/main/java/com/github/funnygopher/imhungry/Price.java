@@ -2,25 +2,24 @@ package com.github.funnygopher.imhungry;
 
 // A scale for determining the price of a place. Monetary values are not given,
 // because how expensive something is for a user is subject to opinion
+
 public enum Price {
-    REALLY_CHEAP(1), CHEAP(2), WELL_PRICED(3), EXPENSIVE(4), REALLY_EXPENSIVE(5);
-
-    private int value;
-
-    Price(int value) {
-        this.value = value;
-    }
+    REALLY_CHEAP, CHEAP, WELL_PRICED, EXPENSIVE, REALLY_EXPENSIVE;
 
     public int getValue() {
-        return value;
+        return ordinal();
     }
 
-    public String getMonetaryString() {
-        StringBuilder price = new StringBuilder();
-        for(int i = 0; i < value; i++) {
-            price.append("$");
-        }
-        return price.toString();
+    public static int getValue(int index) {
+        return values()[index].ordinal();
+    }
+
+    public String getName() {
+        return toString();
+    }
+
+    public static String getName(int index) {
+        return values()[index].toString();
     }
 
     @Override

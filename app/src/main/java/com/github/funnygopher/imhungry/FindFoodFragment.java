@@ -35,24 +35,22 @@ public class FindFoodFragment extends Fragment {
         mPriceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
             @Override
             public void onSliderChange(Slider slider, int index, int prevIndex) {
-                mPriceText.setText(Price.values()[index].toString());
-                updateButtonText();
+                mPriceText.setText(Price.getName(index));
             }
         });
         mPriceText = (TextView) view.findViewById(R.id.find_food_price_textview);
-        mPriceText.setText(Price.values()[mPriceSlider.getIndex()].toString());
+        mPriceText.setText(Price.getName(mPriceSlider.getIndex()));
 
         // The distance slider and textview
         mDistanceSlider = (Slider) view.findViewById(R.id.find_food_distance_slider);
         mDistanceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
             @Override
             public void onSliderChange(Slider slider, int index, int prevIndex) {
-                mDistanceText.setText(Distance.values()[index].toString());
-                updateButtonText();
+                mDistanceText.setText(Distance.values()[index].getReadableString());
             }
         });
         mDistanceText = (TextView) view.findViewById(R.id.find_food_distance_textview);
-        mDistanceText.setText(Distance.values()[mDistanceSlider.getIndex()].toString());
+        mDistanceText.setText(Distance.values()[mDistanceSlider.getIndex()].getReadableString());
 
         // The place detail card
         mPlaceDetail = (CardView) view.findViewById(R.id.find_food_place_detail);
@@ -76,19 +74,9 @@ public class FindFoodFragment extends Fragment {
         return view;
     }
 
-    private void updateButtonText() {
-        int priceIndex = mPriceSlider.getIndex();
-        int distanceIndex = mDistanceSlider.getIndex();
-        String buttonString = String.format("Find me %s food %s!",
-                Price.values()[priceIndex].toString(),
-                Distance.values()[distanceIndex].toString());
-        mButton.setText("Find me food!");
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateButtonText();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.funnygopher.imhungry;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,38 +9,39 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class MyPlacesListAdapter extends BaseAdapter {
 
+    private CupboardDBHelper dbHelper;
     private List<Place> places;
 
-    public MyPlacesListAdapter(List<Place> places) {
-        this.places = places;
+    public MyPlacesListAdapter(Context context) {
+        dbHelper = new CupboardDBHelper(context);
+        places = new ArrayList<Place>();
+        update();
+    }
 
-        List<Place> morePlaces = new ArrayList<>();
-        Place place1 = new Place("WichWich", "A good place for sandwiches!", Price.CHEAP, "The Address", true);
-        Place place2 = new Place("Wendy's", "It's a Wendy's...", Price.WELL_PRICED, "The Address", false);
-        Place place3 = new Place("Jimmy Johns", "Good cheap sandwiches", Price.WELL_PRICED, "The Address", false);
-        Place place4 = new Place("Shobu Fondue", "Shobu shobu!! Swish swish!!", Price.REALLY_EXPENSIVE, "The Address", true);
+    private void sortByName() {
+        Collections.sort(places, new Comparator<Place>() {
+            @Override
+            public int compare(Place place1, Place place2) {
+                return place1.getName().compareTo(place2.getName());
+            }
+        });
+    }
 
-        for(int i = 1; i < 19; i++) {
-            if(i % 4 == 0) {
-                morePlaces.add(place1);
-            }
-            if(i % 4 == 1) {
-                morePlaces.add(place2);
-            }
-            if(i % 4 == 2) {
-                morePlaces.add(place3);
-            }
-            if(i % 4 == 3) {
-                morePlaces.add(place4);
-            }
-        }
-        for(Place place : morePlaces) {
-            places.add(place);
-        }
+    public void update() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<Place> newPlaces = cupboard().withDatabase(db).query(Place.class).list();
+        places.clear();
+        places.addAll(newPlaces);
+        sortByName();
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -71,7 +73,7 @@ public class MyPlacesListAdapter extends BaseAdapter {
         Place place = getItem(position);
         name.setText(place.getName());
         description.setText(place.getDescription());
-        price.setText(place.getPrice().toString());
+        price.setText(Price.getName(place.getPrice()));
 
         return convertView;
     }

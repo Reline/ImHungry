@@ -30,6 +30,4 @@ public class CupboardDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         cupboard().withDatabase(db).upgradeTables();
     }
-
-
 }
