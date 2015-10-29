@@ -15,7 +15,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 import com.github.funnygopher.imhungry.views.Slider;
 
-public class TEMPNewPlaceActivity extends AppCompatActivity {
+public class NewPlaceActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private Button mSaveButton;

@@ -69,7 +69,7 @@ public class MyPlacesFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), TEMPNewPlaceActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), NewPlaceActivity.class);
                 startActivityForResult(intent, REQUEST_NEW_PLACE);
             }
         });
