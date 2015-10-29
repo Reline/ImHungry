@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewPlaceActivity"
+            android:name=".TEMPNewPlaceActivity"
             android:label="NewPlaceActivity" >
         </activity>
     </application>
