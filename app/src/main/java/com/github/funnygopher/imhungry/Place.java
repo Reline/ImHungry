@@ -2,7 +2,7 @@ package com.github.funnygopher.imhungry;
 
 public class Place implements Comparable<Place> {
 
-    private Long _id; // Used for Cupboard API
+    public Long _id; // Used for Cupboard API
     private String name;
     private String description;
     private Price price; // Not a monetary value. More of a scale from 1 - 5.

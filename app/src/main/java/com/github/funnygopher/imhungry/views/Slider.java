@@ -1,9 +1,11 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
+
+import com.github.funnygopher.imhungry.R;
 
 public class Slider extends SeekBar {
 

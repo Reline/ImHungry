@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:til="http://schemas.android.com/apk/res-auto"
+    xmlns:slider="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/new_place_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/primary"
+        android:elevation="4dp"
+        android:title="New Place">
+
+        <Button
+            android:id="@+id/new_place_button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/icons"
+            style="?android:borderlessButtonStyle"
+            android:layout_gravity="right|end"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="16dp">
+
+        <!-- Place name -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            til:hintTextAppearance="@style/TextAppearance.Design.Hint"
+            til:errorTextAppearance="@style/TextAppearance.Design.Error">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/new_place_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionNext"
+                android:hint="Place name"
+                android:textColor="@color/secondary_text"
+                android:textSize="40sp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Place description -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            til:hintTextAppearance="@style/TextAppearance.Design.Hint"
+            til:errorTextAppearance="@style/TextAppearance.Design.Error">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/new_place_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionDone"
+                android:hint="Description"
+                android:textColor="@color/secondary_text"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Price slider and text -->
+        <LinearLayout
+            android:id="@+id/find_food_price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/new_place_price_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="16dp"
+                android:text="Cheap"
+                android:textSize="18sp"
+                android:textColor="@color/secondary_text"/>
+
+            <com.github.funnygopher.imhungry.views.Slider
+                android:id="@+id/new_place_price_slider"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="8dp"
+                slider:points="5" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

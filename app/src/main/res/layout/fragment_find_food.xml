@@ -48,7 +48,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/secondary_text"/>
 
-                <com.github.funnygopher.imhungry.Slider
+                <com.github.funnygopher.imhungry.views.Slider
                     android:id="@+id/find_food_price_slider"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/secondary_text"/>
 
-                <com.github.funnygopher.imhungry.Slider
+                <com.github.funnygopher.imhungry.views.Slider
                     android:id="@+id/find_food_distance_slider"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"

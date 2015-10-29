@@ -1,7 +1,5 @@
 package com.github.funnygopher.imhungry;
 
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -12,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.github.funnygopher.imhungry.views.Slider;
 
 public class FindFoodFragment extends Fragment {
 
