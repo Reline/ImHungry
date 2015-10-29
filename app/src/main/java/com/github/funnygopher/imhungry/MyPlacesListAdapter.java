@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import nl.qbusict.cupboard.QueryResultIterable;
+
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 public class MyPlacesListAdapter extends BaseAdapter {
@@ -42,6 +44,22 @@ public class MyPlacesListAdapter extends BaseAdapter {
         places.addAll(newPlaces);
         sortByName();
         this.notifyDataSetChanged();
+    }
+
+    public Place shufflePlaces(Place currentPlace, int price) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<Place> sortedPlaces = cupboard().withDatabase(db).query(Place.class).withSelection("price = ?", Integer.toString(price)).list();
+
+        if(sortedPlaces.size() == 0) {
+            return null;
+        }
+
+        ShuffleBag<Place> shuffleBag = new ShuffleBag<Place>(sortedPlaces);
+        if(currentPlace != null) {
+            return shuffleBag.grabItemButNotThisItem(currentPlace);
+        }
+
+        return shuffleBag.grabItem();
     }
 
     @Override

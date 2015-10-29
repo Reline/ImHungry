@@ -1,6 +1,8 @@
 package com.github.funnygopher.imhungry;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -10,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.funnygopher.imhungry.views.Slider;
+
+import java.util.List;
 
 public class FindFoodFragment extends Fragment {
 
@@ -24,6 +29,7 @@ public class FindFoodFragment extends Fragment {
     private Button mButton;
 
     private CardView mPlaceDetail;
+    private Place currentPlace;
     private boolean invisible; // Temporary toggle value for running the cardview animation
 
     @Override
@@ -61,11 +67,32 @@ public class FindFoodFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyPlacesListAdapter adapter = new MyPlacesListAdapter(getActivity());
+                Place newPlace = adapter.shufflePlaces(currentPlace, Price.getValue(mPriceSlider.getIndex()));
+
+                // Couldn't find a random place...
+                if(newPlace == null) {
+                    Toast.makeText(getActivity(), "There is no " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(currentPlace != null && newPlace.compareTo(currentPlace) == 0) {
+                    Toast.makeText(getActivity(), "This is the only " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                currentPlace = newPlace;
+
+                TextView title = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_title);
+                TextView priceDistance = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_price_distance);
+                TextView description = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_description);
+
+                title.setText(newPlace.getName());
+                priceDistance.setText(Price.getName(mPriceSlider.getIndex()) + " - " + "2.0 mi");
+                description.setText(newPlace.getDescription());
+
                 if(invisible)
                     mPlaceDetail.setVisibility(View.VISIBLE);
-                else
-                    mPlaceDetail.setVisibility(View.INVISIBLE);
-
                 invisible = mPlaceDetail.getVisibility() == View.INVISIBLE;
             }
         });

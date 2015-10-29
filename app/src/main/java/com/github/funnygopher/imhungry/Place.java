@@ -47,7 +47,7 @@ public class Place implements Comparable<Place> {
 
     @Override
     public int compareTo(Place anotherPlace) {
-        if(address.equals(anotherPlace.getAddress())) {
+        if(name.equals(anotherPlace.getName())) {
             return 0;
         }
 

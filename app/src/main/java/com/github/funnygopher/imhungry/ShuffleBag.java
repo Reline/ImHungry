@@ -36,7 +36,15 @@ public class ShuffleBag<T extends Comparable<T>> {
     public T grabItemButNotThisItem(T itemNotToGrab) {
         T item = itemStack.pop();
 
+        // If there's only 1 item in the stack...
+        if(itemStack.size() == 0) {
+            return item;
+        }
+
         while(item.compareTo(itemNotToGrab) == 0) {
+            if(itemStack.size() == 0) {
+                return item;
+            }
             item = itemStack.pop();
         }
 
