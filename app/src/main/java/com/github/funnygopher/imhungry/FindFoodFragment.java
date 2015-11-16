@@ -88,7 +88,7 @@ public class FindFoodFragment extends Fragment {
                 TextView description = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_description);
 
                 title.setText(newPlace.getName());
-                priceDistance.setText(Price.getName(mPriceSlider.getIndex()) + " - " + "2.0 mi");
+                priceDistance.setText(Price.getName(newPlace.getPrice()) + " - " + "2.0 mi");
                 description.setText(newPlace.getDescription());
 
                 if(invisible)

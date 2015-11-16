@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ public class NewPlaceActivity extends AppCompatActivity {
     private Slider mPriceSlider;
     private TextView mPriceText;
 
+    private boolean hasTitle = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +40,22 @@ public class NewPlaceActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("New Place");
 
         mNameEditText = (AppCompatEditText) findViewById(R.id.new_place_name);
+        mNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateSaveButton(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         mDescEditText = (AppCompatEditText) findViewById(R.id.new_place_description);
         mDescEditText.setHorizontallyScrolling(false);
@@ -56,25 +76,49 @@ public class NewPlaceActivity extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createPlace();
+                Intent intent = new Intent();
+
+                if (hasTitle) {
+                    Place place = createPlace();
+
+                    Bundle b = new Bundle();
+                    b.putParcelable("place", place);
+                    intent.putExtras(b);
+
+                    setResult(Activity.RESULT_OK, intent);
+                } else {
+                    setResult(Activity.RESULT_CANCELED, intent);
+                }
+
+                finish();
             }
         });
+
+        updateSaveButton(mNameEditText.getText().toString());
     }
 
-    private void createPlace() {
+    private void updateSaveButton(String s) {
+        hasTitle = s.length() > 0;
+        if(hasTitle) {
+            mSaveButton.setText("Save");
+        } else {
+            mSaveButton.setText("Cancel");
+        }
+    }
+
+    private Place createPlace() {
         String name = mNameEditText.getText().toString();
         String desc = mDescEditText.getText().toString();
         int price = Price.getValue(mPriceSlider.getIndex());
         Place place = new Place(name, desc, price, "", false);
 
+        return place;
+
+        /*
         // Adds the new place to the database
         CupboardDBHelper dbHelper = new CupboardDBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         cupboard().withDatabase(db).put(place);
-
-        Intent intent = new Intent();
-        intent.putExtra("updateList", true);
-        setResult(Activity.RESULT_OK, intent);
-        finish();
+        */
     }
 }

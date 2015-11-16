@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,24 +46,41 @@ public class MyPlacesFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Place place = mAdapter.getItem(position);
+            final Place place = mAdapter.getItem(position);
 
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.place_detail_cardview);
+            final Dialog dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.place_detail_cardview);
 
-                TextView title = (TextView) dialog.findViewById(R.id.place_detail_card_title);
-                TextView priceDistance = (TextView) dialog.findViewById(R.id.place_detail_card_price_distance);
-                TextView description = (TextView) dialog.findViewById(R.id.place_detail_card_description);
+            // Toolbar for overflow menu
+            Toolbar toolbar = (Toolbar) dialog.findViewById(R.id.place_detail_card_toolbar);
+            toolbar.inflateMenu(R.menu.menu_place_detail_card_actions);
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_place_detail_card_delete:
+                            mAdapter.remove(place);
+                            dialog.dismiss();
+                            mAdapter.update();
+                            break;
+                    }
+                    return false;
+                }
+            });
 
-                title.setText(place.getName());
-                priceDistance.setText(Price.getName(place.getPrice()) + " - " + "2.0 mi");
-                description.setText(place.getDescription());
+            TextView title = (TextView) dialog.findViewById(R.id.place_detail_card_title);
+            TextView priceDistance = (TextView) dialog.findViewById(R.id.place_detail_card_price_distance);
+            TextView description = (TextView) dialog.findViewById(R.id.place_detail_card_description);
 
-                dialog.show();
+            title.setText(place.getName());
+            priceDistance.setText(Price.getName(place.getPrice()) + " - " + "2.0 mi");
+            description.setText(place.getDescription());
 
-                Window window = dialog.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.show();
+
+            Window window = dialog.getWindow();
+            window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             }
         });
 
@@ -87,7 +106,11 @@ public class MyPlacesFragment extends Fragment {
 
         if(resultCode == Activity.RESULT_OK) {
             if(requestCode == REQUEST_NEW_PLACE) {
+                Bundle b = data.getExtras();
+                Place place = b.getParcelable("place");
+                mAdapter.add(place);
                 mAdapter.update();
+
                 Toast.makeText(getActivity(), "New place created!", Toast.LENGTH_SHORT).show();
             }
         }

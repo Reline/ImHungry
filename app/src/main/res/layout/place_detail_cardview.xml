@@ -7,12 +7,17 @@
     cardview:cardCornerRadius="2dp"
     cardview:elevation="4dp">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/place_detail_card_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical">
 
-        <!-- Place detaills go here! -->
+        <!-- Place details go here! -->
 
         <!-- Place name and price and distance -->
         <LinearLayout

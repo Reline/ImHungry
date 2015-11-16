@@ -2,7 +2,9 @@ package com.github.funnygopher.imhungry;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -43,12 +45,27 @@ public class MyPlacesListAdapter extends BaseAdapter {
         places.clear();
         places.addAll(newPlaces);
         sortByName();
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
+    }
+
+    // Adds a place to the database
+    public void add(Place place) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        cupboard().withDatabase(db).put(place);
+    }
+
+    // Removes a place from the database
+    public void remove(Place place) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        cupboard().withDatabase(db).delete(Place.class, place._id);
     }
 
     public Place shufflePlaces(Place currentPlace, int price) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        List<Place> sortedPlaces = cupboard().withDatabase(db).query(Place.class).withSelection("price = ?", Integer.toString(price)).list();
+        List<Place> sortedPlaces = cupboard().withDatabase(db)
+                .query(Place.class)
+                .withSelection("price <= ?", Integer.toString(price))
+                .list();
 
         if(sortedPlaces.size() == 0) {
             return null;
@@ -78,7 +95,7 @@ public class MyPlacesListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.my_places_list_item, parent, false);
