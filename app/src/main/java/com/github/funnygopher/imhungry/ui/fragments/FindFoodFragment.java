@@ -1,22 +1,21 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.ui.fragments;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.funnygopher.imhungry.views.Slider;
-
-import java.util.List;
+import com.github.funnygopher.imhungry.R;
+import com.github.funnygopher.imhungry.model.Distance;
+import com.github.funnygopher.imhungry.model.Place;
+import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.ui.widgets.MyPlacesListAdapter;
+import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 public class FindFoodFragment extends Fragment {
 
@@ -99,16 +98,5 @@ public class FindFoodFragment extends Fragment {
 
         setHasOptionsMenu(true);
         return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //inflater.inflate(R.menu.find_food_actions, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 }

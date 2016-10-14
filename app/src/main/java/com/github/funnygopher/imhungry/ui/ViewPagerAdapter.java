@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

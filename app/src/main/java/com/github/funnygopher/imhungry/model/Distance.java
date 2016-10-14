@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.model;
 
 public enum Distance {
     NEARBY(1), AROUND_TOWN(2), ANYWHERE(3);

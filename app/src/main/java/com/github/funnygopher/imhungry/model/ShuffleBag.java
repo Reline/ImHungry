@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.model;
 
 import java.util.List;
 import java.util.Random;

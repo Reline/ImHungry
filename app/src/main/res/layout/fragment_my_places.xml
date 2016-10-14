@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.github.funnygopher.imhungry.MyPlacesFragment">
+    tools:context="com.github.funnygopher.imhungry.ui.fragments.MyPlacesFragment">
 
     <ListView
         android:id="@+id/my_places_listview"

@@ -1,10 +1,16 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
+import com.github.funnygopher.imhungry.R;
+import com.github.funnygopher.imhungry.ui.ViewPagerAdapter;
+import com.github.funnygopher.imhungry.ui.fragments.FindFoodFragment;
+import com.github.funnygopher.imhungry.ui.fragments.MyPlacesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,16 +20,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.icons));
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.icons));
         setSupportActionBar(toolbar);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tablayout);
-        tabLayout.setTabTextColors(getResources().getColor(R.color.icons), getResources().getColor(R.color.icons));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.icons), ContextCompat.getColor(this, R.color.icons));
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

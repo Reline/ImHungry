@@ -1,8 +1,10 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.model.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.github.funnygopher.imhungry.model.Place;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 

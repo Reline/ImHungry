@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.model;
 
 // A scale for determining the price of a place. Monetary values are not given,
 // because how expensive something is for a user is subject to opinion

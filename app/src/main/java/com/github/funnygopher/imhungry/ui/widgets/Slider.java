@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry.views;
+package com.github.funnygopher.imhungry.ui.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

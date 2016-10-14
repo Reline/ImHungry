@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.ui.widgets;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.github.funnygopher.imhungry.R;
+import com.github.funnygopher.imhungry.model.Place;
+import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.model.ShuffleBag;
+import com.github.funnygopher.imhungry.model.database.CupboardDBHelper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import nl.qbusict.cupboard.QueryResultIterable;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
@@ -24,7 +28,7 @@ public class MyPlacesListAdapter extends BaseAdapter {
 
     public MyPlacesListAdapter(Context context) {
         dbHelper = new CupboardDBHelper(context);
-        places = new ArrayList<Place>();
+        places = new ArrayList<>();
         update();
     }
 
@@ -54,7 +58,7 @@ public class MyPlacesListAdapter extends BaseAdapter {
             return null;
         }
 
-        ShuffleBag<Place> shuffleBag = new ShuffleBag<Place>(sortedPlaces);
+        ShuffleBag<Place> shuffleBag = new ShuffleBag<>(sortedPlaces);
         if(currentPlace != null) {
             return shuffleBag.grabItemButNotThisItem(currentPlace);
         }

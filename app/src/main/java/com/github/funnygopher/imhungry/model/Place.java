@@ -1,4 +1,6 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.model;
+
+import android.support.annotation.NonNull;
 
 public class Place implements Comparable<Place> {
 
@@ -46,7 +48,7 @@ public class Place implements Comparable<Place> {
     }
 
     @Override
-    public int compareTo(Place anotherPlace) {
+    public int compareTo(@NonNull Place anotherPlace) {
         if(name.equals(anotherPlace.getName())) {
             return 0;
         }

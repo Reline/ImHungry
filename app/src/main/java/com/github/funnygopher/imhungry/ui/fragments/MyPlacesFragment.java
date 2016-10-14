@@ -1,4 +1,4 @@
-package com.github.funnygopher.imhungry;
+package com.github.funnygopher.imhungry.ui.fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,17 +16,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.funnygopher.imhungry.ui.widgets.MyPlacesListAdapter;
+import com.github.funnygopher.imhungry.ui.activities.NewPlaceActivity;
+import com.github.funnygopher.imhungry.model.Place;
+import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.R;
+
 public class MyPlacesFragment extends Fragment {
 
     public static final int REQUEST_NEW_PLACE = 0;
 
     private ListView mListView;
     private MyPlacesListAdapter mAdapter;
-
-    public static MyPlacesFragment newInstance() {
-        MyPlacesFragment fragment = new MyPlacesFragment();
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,9 @@ public class MyPlacesFragment extends Fragment {
                 dialog.show();
 
                 Window window = dialog.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                if (window != null) {
+                    window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                }
             }
         });
 
