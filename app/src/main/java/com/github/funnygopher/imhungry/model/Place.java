@@ -4,19 +4,15 @@ import io.realm.RealmObject;
 
 public class Place extends RealmObject {
 
-    private long id; // Used for Cupboard API
-    private String name;
-    private String description;
+    private long id;
+    private String name = "";
+    private String description = "";
     private int price; // Not a monetary value. More of a scale from 1 - 5.
-    private String address;
+    private String address = "";
     private boolean thisSpecificPlace;
 
     public Place() {
-        name = "";
-        description = "";
-        price = Price.REALLY_CHEAP.getValue();
-        address = "";
-        thisSpecificPlace = false;
+        // default constructor
     }
 
     public Place(String name, String description, int price, String address, boolean thisSpecificPlace) {

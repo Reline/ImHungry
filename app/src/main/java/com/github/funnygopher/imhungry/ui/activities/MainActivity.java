@@ -12,21 +12,40 @@ import com.github.funnygopher.imhungry.ui.ViewPagerAdapter;
 import com.github.funnygopher.imhungry.ui.fragments.FindFoodFragment;
 import com.github.funnygopher.imhungry.ui.fragments.MyPlacesFragment;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
+
+    @BindView(R.id.main_toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.main_tablayout)
+    TabLayout tabLayout;
+
+    @BindView(R.id.main_viewpager)
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.icons));
         setSupportActionBar(toolbar);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-        setupViewPager(viewPager);
+        setupViewPager();
+        setupTabLayout();
+    }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tablayout);
+    private void setupViewPager() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FindFoodFragment(), "Find Food");
+        adapter.addFragment(new MyPlacesFragment(), "My Places");
+        viewPager.setAdapter(adapter);
+    }
+
+    private void setupTabLayout() {
         tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.icons), ContextCompat.getColor(this, R.color.icons));
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -46,12 +65,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FindFoodFragment(), "Find Food");
-        adapter.addFragment(new MyPlacesFragment(), "My Places");
-        viewPager.setAdapter(adapter);
     }
 }

@@ -3,7 +3,6 @@ package com.github.funnygopher.imhungry.ui.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,7 @@ import com.github.funnygopher.imhungry.ui.recyclerview.adapters.PlaceRecyclerAda
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MyPlacesFragment extends Fragment {
 
@@ -45,15 +45,13 @@ public class MyPlacesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        FloatingActionButton mFab = (FloatingActionButton) view.findViewById(R.id.my_places_fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), NewPlaceActivity.class);
-                startActivityForResult(intent, REQUEST_NEW_PLACE);
-            }
-        });
         return view;
+    }
+
+    @OnClick(R.id.my_places_fab)
+    void onFabClick() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), NewPlaceActivity.class);
+        startActivityForResult(intent, REQUEST_NEW_PLACE);
     }
 
     @Override
