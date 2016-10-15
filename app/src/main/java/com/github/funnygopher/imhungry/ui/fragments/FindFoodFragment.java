@@ -3,6 +3,7 @@ package com.github.funnygopher.imhungry.ui.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,12 @@ import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Distance;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.ui.widgets.MyPlacesListAdapter;
+import com.github.funnygopher.imhungry.model.database.RealmService;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 public class FindFoodFragment extends Fragment {
+
+    RealmService realmService;
 
     private Slider mPriceSlider;
     private TextView mPriceText;
@@ -34,6 +37,8 @@ public class FindFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_food, container, false);
+
+        realmService = new RealmService();
 
         // The price slider and textview
         mPriceSlider = (Slider) view.findViewById(R.id.find_food_price_slider);
@@ -66,29 +71,25 @@ public class FindFoodFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyPlacesListAdapter adapter = new MyPlacesListAdapter(getActivity());
-                Place newPlace = adapter.shufflePlaces(currentPlace, Price.getValue(mPriceSlider.getIndex()));
-
+                Place place = realmService.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
                 // Couldn't find a random place...
-                if(newPlace == null) {
+                if (place == null) {
                     Toast.makeText(getActivity(), "There is no " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                if(currentPlace != null && newPlace.compareTo(currentPlace) == 0) {
+                } else if (currentPlace != null && place.getId() == currentPlace.getId()) {
                     Toast.makeText(getActivity(), "This is the only " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                currentPlace = newPlace;
+                currentPlace = place;
 
                 TextView title = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_title);
                 TextView priceDistance = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_price_distance);
                 TextView description = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_description);
 
-                title.setText(newPlace.getName());
+                title.setText(place.getName());
                 priceDistance.setText(Price.getName(mPriceSlider.getIndex()) + " - " + "2.0 mi");
-                description.setText(newPlace.getDescription());
+                description.setText(place.getDescription());
 
                 if(invisible)
                     mPlaceDetail.setVisibility(View.VISIBLE);

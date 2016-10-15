@@ -5,10 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.github.funnygopher.imhungry.ui.fragments.MyPlacesFragment">
 
-    <ListView
-        android:id="@+id/my_places_listview"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/my_places_fab"
@@ -17,7 +17,7 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_action_new"
-        app:layout_anchor="@id/my_places_listview"
-        android:layout_gravity="bottom|right|end"/>
+        app:layout_anchor="@id/recycler_view"
+        android:layout_gravity="bottom|end"/>
 
 </FrameLayout>

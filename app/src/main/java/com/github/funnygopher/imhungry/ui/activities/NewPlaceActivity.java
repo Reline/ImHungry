@@ -2,7 +2,6 @@ package com.github.funnygopher.imhungry.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.github.funnygopher.imhungry.model.database.CupboardDBHelper;
+import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.R;
+import com.github.funnygopher.imhungry.model.database.RealmService;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
-import static nl.qbusict.cupboard.CupboardFactory.cupboard;
-
 public class NewPlaceActivity extends AppCompatActivity {
+
+    private RealmService realmService;
 
     private Toolbar mToolbar;
     private Button mSaveButton;
@@ -34,6 +33,8 @@ public class NewPlaceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_place);
+
+        realmService = new RealmService();
 
         mToolbar = (Toolbar) findViewById(R.id.new_place_toolbar);
         mToolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.icons));
@@ -73,10 +74,7 @@ public class NewPlaceActivity extends AppCompatActivity {
         int price = Price.getValue(mPriceSlider.getIndex());
         Place place = new Place(name, desc, price, "", false);
 
-        // Adds the new place to the database
-        CupboardDBHelper dbHelper = new CupboardDBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        cupboard().withDatabase(db).put(place);
+        realmService.addPlace(place);
 
         Intent intent = new Intent();
         intent.putExtra("updateList", true);

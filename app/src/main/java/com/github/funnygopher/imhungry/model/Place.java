@@ -1,10 +1,10 @@
 package com.github.funnygopher.imhungry.model;
 
-import android.support.annotation.NonNull;
+import io.realm.RealmObject;
 
-public class Place implements Comparable<Place> {
+public class Place extends RealmObject {
 
-    public Long _id; // Used for Cupboard API
+    private long id; // Used for Cupboard API
     private String name;
     private String description;
     private int price; // Not a monetary value. More of a scale from 1 - 5.
@@ -27,6 +27,14 @@ public class Place implements Comparable<Place> {
         this.thisSpecificPlace = thisSpecificPlace;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,14 +53,5 @@ public class Place implements Comparable<Place> {
 
     public boolean isThisSpecificPlace() {
         return thisSpecificPlace;
-    }
-
-    @Override
-    public int compareTo(@NonNull Place anotherPlace) {
-        if(name.equals(anotherPlace.getName())) {
-            return 0;
-        }
-
-        return -1;
     }
 }
