@@ -1,14 +1,14 @@
 package com.github.funnygopher.imhungry.ui.recyclerview.viewholders;
 
-import android.app.Dialog;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.ui.PlaceCardViewHolder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,25 +37,12 @@ public class PlaceViewHolder extends RealmSearchViewHolder {
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.place_detail_cardview);
+            public void onClick(View item) {
+                CardView cardView = (CardView) CardView.inflate(item.getContext(), R.layout.place_detail_cardview, null);
+                PlaceCardViewHolder holder = new PlaceCardViewHolder(cardView);
+                holder.bind(place);
 
-                TextView title = (TextView) dialog.findViewById(R.id.place_detail_card_title);
-                TextView priceDistance = (TextView) dialog.findViewById(R.id.place_detail_card_price_distance);
-                TextView description = (TextView) dialog.findViewById(R.id.place_detail_card_description);
-
-                title.setText(place.getName());
-                priceDistance.setText(Price.getName(place.getPrice()) + " - " + "2.0 mi");
-                description.setText(place.getDescription());
-
-                dialog.show();
-
-                Window window = dialog.getWindow();
-                if (window != null) {
-                    window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                }
+                new AlertDialog.Builder(item.getContext()).setView(cardView).show();
             }
         });
     }

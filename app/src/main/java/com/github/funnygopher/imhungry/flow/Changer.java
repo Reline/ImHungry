@@ -1,5 +1,9 @@
 package com.github.funnygopher.imhungry.flow;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -38,7 +42,7 @@ public class Changer implements KeyChanger {
      * with ids (only layouts with ids will have their state saved/restored)!
      */
     @Override
-    public void changeKey(@Nullable State outgoingState, @NonNull State incomingState, @NonNull Direction direction, @NonNull Map<Object, Context> incomingContexts, @NonNull TraversalCallback callback) {
+    public void changeKey(@Nullable State outgoingState, @NonNull State incomingState, @NonNull final Direction direction, @NonNull Map<Object, Context> incomingContexts, @NonNull final TraversalCallback callback) {
         final ViewGroup frame = (ViewGroup) activity.findViewById(R.id.content);
 
         Object destinationKey = incomingState.getKey();
@@ -73,13 +77,56 @@ public class Changer implements KeyChanger {
             throw new AssertionError("Unrecognized screen " + destinationKey);
         }
 
-        View incomingView = LayoutInflater.from(context).inflate(layout, frame, false);
-        frame.addView(incomingView);
-
+        final View incomingView = LayoutInflater.from(context).inflate(layout, frame, false);
         if (outgoingState != null) {
             outgoingState.restore(incomingView);
         }
 
-        callback.onTraversalCompleted();
+        if (currentView == null || direction == Direction.REPLACE) {
+            frame.removeAllViews();
+            frame.addView(incomingView);
+            callback.onTraversalCompleted();
+        } else {
+            frame.addView(incomingView);
+            final View finalCurrentView = currentView;
+            FlowUtils.waitForMeasure(incomingView, new FlowUtils.OnMeasuredCallback() {
+                @Override
+                public void onMeasured(View view, int width, int height) {
+                    runAnimation(frame, finalCurrentView, incomingView, direction, new TraversalCallback() {
+                        @Override
+                        public void onTraversalCompleted() {
+                            frame.removeView(finalCurrentView);
+                            callback.onTraversalCompleted();
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private void runAnimation(final ViewGroup container, final View from, final View to,
+                              Direction direction, final TraversalCallback callback) {
+        Animator animator = createSegue(from, to, direction);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                container.removeView(from);
+                callback.onTraversalCompleted();
+            }
+        });
+        animator.start();
+    }
+
+    private Animator createSegue(View from, View to, Direction direction) {
+        boolean backward = direction == Direction.BACKWARD;
+        int fromTranslation = backward ? from.getWidth() : -from.getWidth();
+        int toTranslation = backward ? -to.getWidth() : to.getWidth();
+
+        AnimatorSet set = new AnimatorSet();
+
+        set.play(ObjectAnimator.ofFloat(from, View.TRANSLATION_X, fromTranslation));
+        set.play(ObjectAnimator.ofFloat(to, View.TRANSLATION_X, toTranslation, 0));
+
+        return set;
     }
 }

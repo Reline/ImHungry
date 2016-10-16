@@ -3,7 +3,6 @@ package com.github.funnygopher.imhungry.injection.modules;
 import android.content.Context;
 
 import com.github.funnygopher.imhungry.injection.scopes.PerApplication;
-import com.github.funnygopher.imhungry.model.database.RealmService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,10 +20,5 @@ public class AppModule {
     @PerApplication
     Context provideAppContext() {
         return context;
-    }
-
-    @Provides
-    RealmService provideRealmService() {
-        return new RealmService();
     }
 }
