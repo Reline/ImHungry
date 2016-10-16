@@ -2,29 +2,29 @@ package com.github.funnygopher.imhungry.ui.screens;
 
 import android.os.Bundle;
 
-import com.github.funnygopher.imhungry.flow.keys.FindFoodKey;
+import com.github.funnygopher.imhungry.flow.keys.MyPlacesKey;
 import com.github.funnygopher.imhungry.injection.AppDependencies;
 import com.github.funnygopher.imhungry.injection.scopes.DaggerScope;
-import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.database.RealmService;
 import com.github.funnygopher.imhungry.mortar.ScreenComponentFactory;
 import com.github.funnygopher.imhungry.ui.activities.MainActivity;
-import com.github.funnygopher.imhungry.ui.views.FindFoodView;
+import com.github.funnygopher.imhungry.ui.views.MyPlacesView;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import mortar.ViewPresenter;
 
-public final class FindFoodScreen extends FindFoodKey implements ScreenComponentFactory<MainActivity.Component> {
+public class MyPlacesScreen extends MyPlacesKey implements ScreenComponentFactory<MainActivity.Component> {
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj instanceof FindFoodScreen;
+    public boolean equals(Object o) {
+        return o != null && o instanceof MyPlacesScreen;
     }
 
     @Override
     public Object createComponent(MainActivity.Component parent) {
-        return DaggerFindFoodScreen_Component
+        return DaggerMyPlacesScreen_Component
                 .builder()
                 .component(parent)
                 .build();
@@ -33,11 +33,11 @@ public final class FindFoodScreen extends FindFoodKey implements ScreenComponent
     @dagger.Component(dependencies = MainActivity.Component.class)
     @DaggerScope(Component.class)
     public interface Component extends AppDependencies {
-        void inject(FindFoodView view);
+        void inject(MyPlacesView view);
     }
 
     @DaggerScope(Component.class)
-    public static class Presenter extends ViewPresenter<FindFoodView> {
+    public static class Presenter extends ViewPresenter<MyPlacesView> {
 
         RealmService realmService;
 
@@ -52,12 +52,12 @@ public final class FindFoodScreen extends FindFoodKey implements ScreenComponent
             realmService = new RealmService();
         }
 
-        public Place getRandomPlace(int value) {
-            return realmService.getRandomPlace(value);
+        public Realm getData() {
+            return realmService.getRealmInstance();
         }
 
         @Override
-        public void dropView(FindFoodView view) {
+        public void dropView(MyPlacesView view) {
             realmService.closeRealm();
             super.dropView(view);
         }

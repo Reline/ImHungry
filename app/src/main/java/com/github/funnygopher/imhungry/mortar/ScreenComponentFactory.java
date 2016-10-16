@@ -1,8 +1,5 @@
 package com.github.funnygopher.imhungry.mortar;
 
-/**
- * Created by nathan on 10/15/16.
- */
-
-public interface ScreenComponentFactory {
+public interface ScreenComponentFactory<T> {
+    Object createComponent(T parent);
 }

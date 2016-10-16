@@ -9,5 +9,6 @@
     <string name="description">Description</string>
     <string name="place_name">Place name</string>
     <string name="save">Save</string>
-
+    <string name="find_food">Find Food</string>
+    <string name="my_places">My Places</string>
 </resources>

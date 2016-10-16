@@ -10,6 +10,7 @@ public class Place extends RealmObject {
     private int price; // Not a monetary value. More of a scale from 1 - 5.
     private String address = "";
     private boolean thisSpecificPlace;
+    private float distance;
 
     public Place() {
         // default constructor
@@ -49,5 +50,17 @@ public class Place extends RealmObject {
 
     public boolean isThisSpecificPlace() {
         return thisSpecificPlace;
+    }
+
+    public void setDistance(float miles) {
+        distance = miles;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public String getFormattedDistance() {
+        return "2.0 mi";
     }
 }

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.github.funnygopher.imhungry.ui.views.FindFoodView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:slider="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--ViewPager fragments don't support padding in the parent layout for Linear and Relative layouts,
-    which is why it's wrapped in a Frame layout. If the Frame layout is removed, the padding in the
-    Relative layout won't take effect when this fragment is in a ViewPager.-->
 
     <!-- Allows the options layout to be at the bottom of the screen -->
     <RelativeLayout
@@ -134,4 +131,4 @@
                 android:visibility="invisible" />
         </RelativeLayout>
     </RelativeLayout>
-</FrameLayout>
+</com.github.funnygopher.imhungry.ui.views.FindFoodView>

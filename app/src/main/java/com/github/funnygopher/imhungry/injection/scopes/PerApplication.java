@@ -1,8 +1,10 @@
 package com.github.funnygopher.imhungry.injection.scopes;
 
-/**
- * Created by nathan on 10/15/16.
- */
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public interface PerApplication {
-}
+import javax.inject.Scope;
+
+@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PerApplication {}

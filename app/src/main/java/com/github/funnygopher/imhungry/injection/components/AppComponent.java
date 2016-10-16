@@ -1,8 +1,13 @@
 package com.github.funnygopher.imhungry.injection.components;
 
-/**
- * Created by nathan on 10/15/16.
- */
+import com.github.funnygopher.imhungry.ImHungry;
+import com.github.funnygopher.imhungry.injection.modules.AppModule;
+import com.github.funnygopher.imhungry.injection.scopes.PerApplication;
 
-public class AppComponent {
+import dagger.Component;
+
+@PerApplication
+@Component(modules = {AppModule.class})
+public interface AppComponent {
+    void inject(ImHungry application);
 }
