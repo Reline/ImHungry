@@ -6,7 +6,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.funnygopher.imhungry.R;
-import com.github.funnygopher.imhungry.flow.keys.FindFoodKey;
-import com.github.funnygopher.imhungry.flow.keys.MyPlacesKey;
 
 import java.util.Map;
 
@@ -68,16 +65,11 @@ public class MainKeyChanger implements KeyChanger {
         }
 
         Context context = incomingContexts.get(destinationKey);
-        @LayoutRes final int layout;
-        if (destinationKey instanceof FindFoodKey) {
-            layout = R.layout.find_food_view;
-        } else if (destinationKey instanceof MyPlacesKey) {
-            layout = R.layout.my_places_view;
-        } else {
-            throw new AssertionError("Unrecognized key " + destinationKey);
-        }
+        Layout layout = destinationKey.getClass().getAnnotation(Layout.class);
+        if (layout == null)
+            throw new IllegalStateException("@Layout annotation is missing on screen " + destinationKey.getClass().getName());
 
-        final View incomingView = LayoutInflater.from(context).inflate(layout, frame, false);
+        final View incomingView = LayoutInflater.from(context).inflate(layout.value(), frame, false);
         if (outgoingState != null) {
             outgoingState.restore(incomingView);
         }

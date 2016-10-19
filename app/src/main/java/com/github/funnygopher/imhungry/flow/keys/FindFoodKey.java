@@ -1,11 +1,14 @@
 package com.github.funnygopher.imhungry.flow.keys;
 
+import com.github.funnygopher.imhungry.R;
+import com.github.funnygopher.imhungry.flow.Layout;
 import com.github.funnygopher.imhungry.injection.components.DaggerFindFoodComponent;
 import com.github.funnygopher.imhungry.injection.components.MainComponent;
 import com.github.funnygopher.imhungry.mortar.KeyComponentFactory;
 
 import flow.ClassKey;
 
+@Layout(R.layout.find_food_view)
 public class FindFoodKey extends ClassKey implements KeyComponentFactory<MainComponent> {
 
     @Override
