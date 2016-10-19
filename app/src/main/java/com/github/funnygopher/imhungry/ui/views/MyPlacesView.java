@@ -9,9 +9,10 @@ import android.widget.FrameLayout;
 
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.injection.DaggerService;
+import com.github.funnygopher.imhungry.injection.components.MyPlacesComponent;
+import com.github.funnygopher.imhungry.presenters.MyPlacesPresenter;
 import com.github.funnygopher.imhungry.ui.activities.NewPlaceActivity;
 import com.github.funnygopher.imhungry.ui.recyclerview.adapters.PlaceRecyclerAdapter;
-import com.github.funnygopher.imhungry.ui.screens.MyPlacesScreen;
 
 import javax.inject.Inject;
 
@@ -30,14 +31,14 @@ public class MyPlacesView extends FrameLayout {
     RecyclerView recyclerView;
 
     @Inject
-    MyPlacesScreen.Presenter presenter;
+    MyPlacesPresenter presenter;
 
     @SuppressWarnings("ConstantConditions")
     public MyPlacesView(Context context, AttributeSet attrs) {
         super(context, attrs);
         Timber.tag(getClass().getSimpleName());
         MortarScope scope = Flow.getService(Flow.getKey(this).getClass().getName(), context);
-        scope.<MyPlacesScreen.Component>getService(DaggerService.SERVICE_NAME).inject(this);
+        scope.<MyPlacesComponent>getService(DaggerService.SERVICE_NAME).inject(this);
     }
 
     @Override

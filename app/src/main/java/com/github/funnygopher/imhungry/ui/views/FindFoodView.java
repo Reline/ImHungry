@@ -9,11 +9,12 @@ import android.widget.Toast;
 
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.injection.DaggerService;
+import com.github.funnygopher.imhungry.injection.components.FindFoodComponent;
 import com.github.funnygopher.imhungry.model.Distance;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.presenters.FindFoodPresenter;
 import com.github.funnygopher.imhungry.ui.PlaceCardViewHolder;
-import com.github.funnygopher.imhungry.ui.screens.FindFoodScreen;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import javax.inject.Inject;
@@ -45,14 +46,14 @@ public class FindFoodView extends FrameLayout {
     Place currentPlace;
 
     @Inject
-    FindFoodScreen.Presenter presenter;
+    FindFoodPresenter presenter;
 
     @SuppressWarnings("ConstantConditions")
     public FindFoodView(Context context, AttributeSet attrs) {
         super(context, attrs);
         Timber.tag(getClass().getSimpleName());
         MortarScope scope = Flow.getService(Flow.getKey(this).getClass().getName(), context);
-        scope.<FindFoodScreen.Component>getService(DaggerService.SERVICE_NAME).inject(this);
+        scope.<FindFoodComponent>getService(DaggerService.SERVICE_NAME).inject(this);
     }
 
     @Override

@@ -7,15 +7,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.github.funnygopher.imhungry.ImHungry;
 import com.github.funnygopher.imhungry.R;
-import com.github.funnygopher.imhungry.flow.Changer;
-import com.github.funnygopher.imhungry.injection.AppDependencies;
+import com.github.funnygopher.imhungry.flow.MainKeyChanger;
+import com.github.funnygopher.imhungry.flow.keys.FindFoodKey;
+import com.github.funnygopher.imhungry.flow.keys.MyPlacesKey;
 import com.github.funnygopher.imhungry.injection.DaggerService;
-import com.github.funnygopher.imhungry.injection.scopes.DaggerScope;
+import com.github.funnygopher.imhungry.injection.components.AppComponent;
+import com.github.funnygopher.imhungry.injection.components.DaggerMainComponent;
+import com.github.funnygopher.imhungry.injection.components.MainComponent;
 import com.github.funnygopher.imhungry.mortarflow.DaggerServiceFactory;
-import com.github.funnygopher.imhungry.ui.screens.FindFoodScreen;
-import com.github.funnygopher.imhungry.ui.screens.MyPlacesScreen;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         mortarScope = MortarScope.findChild(getApplicationContext(), getClass().getName());
 
         if (mortarScope == null) {
-            Component component = DaggerMainActivity_Component.builder()
-                    .component(DaggerService.<ImHungry.Component>getDaggerComponent(getApplicationContext()))
+            MainComponent component = DaggerMainComponent.builder()
+                    .appComponent(DaggerService.<AppComponent>getDaggerComponent(getApplicationContext()))
                     .build();
 
             mortarScope = MortarScope.buildChild(getApplicationContext())
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                     .build(getClass().getName());
         }
 
-        DaggerService.<Component>getDaggerComponent(this).inject(this);
+        DaggerService.<MainComponent>getDaggerComponent(this).inject(this);
 
         BundleServiceRunner.getBundleServiceRunner(this).onCreate(savedInstanceState);
 
@@ -62,17 +62,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Object screen;
+                Object key;
                 switch (tab.getPosition()) {
                     default:
                     case 0:
-                        screen = new FindFoodScreen();
+                        key = new FindFoodKey();
                         break;
                     case 1:
-                        screen = new MyPlacesScreen();
+                        key = new MyPlacesKey();
                         break;
                 }
-                Flow.get(getBaseContext()).set(screen);
+                Flow.get(getBaseContext()).set(key);
             }
 
             @Override
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     protected void attachBaseContext(Context baseContext) {
         baseContext = Flow.configure(baseContext, this)
                 .addServicesFactory(new DaggerServiceFactory(this))
-                .dispatcher(KeyDispatcher.configure(this, new Changer(this)).build())
-                .defaultKey(new FindFoodScreen())
+                .dispatcher(KeyDispatcher.configure(this, new MainKeyChanger(this)).build())
+                .defaultKey(new FindFoodKey())
                 .install();
         super.attachBaseContext(baseContext);
     }
@@ -130,9 +130,4 @@ public class MainActivity extends AppCompatActivity {
         return service != null ? service : super.getSystemService(name);
     }
 
-    @dagger.Component(dependencies = ImHungry.Component.class)
-    @DaggerScope(Component.class)
-    public interface Component extends AppDependencies {
-        void inject(MainActivity activity);
-    }
 }

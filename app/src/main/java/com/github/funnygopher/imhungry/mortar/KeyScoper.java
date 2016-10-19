@@ -7,10 +7,10 @@ import com.github.funnygopher.imhungry.injection.DaggerService;
 
 import mortar.MortarScope;
 
-public class ScreenScoper {
+public class KeyScoper {
 
     @Nullable
-    public MortarScope getScreenScope(Context context, String name, Object key) {
+    public MortarScope getKeyScope(Context context, String name, Object key) {
         MortarScope parentScope = MortarScope.getScope(context);
 
         MortarScope childScope = parentScope.findChild(name);
@@ -18,11 +18,11 @@ public class ScreenScoper {
             return childScope;
         }
 
-        if (!(key instanceof ScreenComponentFactory)) {
+        if (!(key instanceof KeyComponentFactory)) {
             return null;
         }
-        ScreenComponentFactory screenComponentFactory = (ScreenComponentFactory) key;
-        Object component = screenComponentFactory.createComponent(parentScope.getService(DaggerService.SERVICE_NAME));
+        KeyComponentFactory keyComponentFactory = (KeyComponentFactory) key;
+        Object component = keyComponentFactory.createComponent(parentScope.getService(DaggerService.SERVICE_NAME));
 
         MortarScope.Builder builder = parentScope.buildChild().withService(DaggerService.SERVICE_NAME, component);
 

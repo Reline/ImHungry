@@ -26,11 +26,11 @@ import flow.State;
 import flow.TraversalCallback;
 import timber.log.Timber;
 
-public class Changer implements KeyChanger {
+public class MainKeyChanger implements KeyChanger {
 
     private final Activity activity;
 
-    public Changer(Activity activity) {
+    public MainKeyChanger(Activity activity) {
         Timber.tag(getClass().getSimpleName());
         this.activity = activity;
     }
@@ -38,7 +38,7 @@ public class Changer implements KeyChanger {
     /**
      * Transition from outgoing state to incoming state.  Implementations should call
      * {@link State#restore(View)} on the incoming view, and (if outgoingState is not null)
-     * {@link State#save(View)} on the outgoing view.  And don't forget to declare your screen layouts
+     * {@link State#save(View)} on the outgoing view.  And don't forget to declare your layouts
      * with ids (only layouts with ids will have their state saved/restored)!
      */
     @Override
@@ -70,11 +70,11 @@ public class Changer implements KeyChanger {
         Context context = incomingContexts.get(destinationKey);
         @LayoutRes final int layout;
         if (destinationKey instanceof FindFoodKey) {
-            layout = R.layout.find_food_screen;
+            layout = R.layout.find_food_view;
         } else if (destinationKey instanceof MyPlacesKey) {
-            layout = R.layout.my_places_screen;
+            layout = R.layout.my_places_view;
         } else {
-            throw new AssertionError("Unrecognized screen " + destinationKey);
+            throw new AssertionError("Unrecognized key " + destinationKey);
         }
 
         final View incomingView = LayoutInflater.from(context).inflate(layout, frame, false);
