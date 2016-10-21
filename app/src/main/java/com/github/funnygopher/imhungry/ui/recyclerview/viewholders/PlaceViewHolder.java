@@ -2,6 +2,7 @@ package com.github.funnygopher.imhungry.ui.recyclerview.viewholders;
 
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,9 +13,8 @@ import com.github.funnygopher.imhungry.ui.PlaceCardViewHolder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import co.moonmonkeylabs.realmsearchview.RealmSearchViewHolder;
 
-public class PlaceViewHolder extends RealmSearchViewHolder {
+public class PlaceViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.my_places_list_item_title)
     TextView name;

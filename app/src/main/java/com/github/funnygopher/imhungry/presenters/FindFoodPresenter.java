@@ -34,7 +34,7 @@ public class FindFoodPresenter extends ViewPresenter<FindFoodView> {
 
     @Override
     public void dropView(FindFoodView view) {
-        realmService.closeRealm();
+        realmService.close();
         super.dropView(view);
     }
 }

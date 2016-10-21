@@ -4,23 +4,21 @@ import android.support.annotation.Nullable;
 
 import com.github.funnygopher.imhungry.model.Place;
 
+import java.io.Closeable;
 import java.util.Random;
 
+import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
-public class RealmService {
+public class RealmService implements Closeable {
 
     private final Realm realm;
     private long lastPlaceId;
 
     public RealmService() {
         realm = Realm.getDefaultInstance();
-    }
-
-    public void closeRealm() {
-        realm.close();
     }
 
     public void addPlace(Place place) {
@@ -37,10 +35,6 @@ public class RealmService {
         return primaryKey.longValue() + 1;
     }
 
-    public Realm getRealmInstance() {
-        return realm;
-    }
-
     @Nullable
     public Place getRandomPlace(int value) {
         RealmResults<Place> places = realm.where(Place.class)
@@ -55,5 +49,14 @@ public class RealmService {
         Place place = places.get(i);
         lastPlaceId = place.getId();
         return places.get(i);
+    }
+
+    public OrderedRealmCollection<Place> getAllPlaces() {
+        return realm.where(Place.class).findAll();
+    }
+
+    @Override
+    public void close() {
+        realm.close();
     }
 }
