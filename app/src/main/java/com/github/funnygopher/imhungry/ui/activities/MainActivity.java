@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         baseContext = Flow.configure(baseContext, this)
                 .addServicesFactory(new DaggerServiceFactory(this))
                 .dispatcher(KeyDispatcher.configure(this, new MainKeyChanger(this)).build())
-                .defaultKey(new FindFoodKey())
+                .defaultKey(new FindFoodKey(0))
                 .install();
         super.attachBaseContext(baseContext);
     }

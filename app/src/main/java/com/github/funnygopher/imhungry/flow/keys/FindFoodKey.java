@@ -17,6 +17,11 @@ public class FindFoodKey extends ClassKey implements KeyComponentFactory<MainCom
     }
 
     @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
     public Object createComponent(MainComponent parent) {
         return DaggerFindFoodComponent
                 .builder()
