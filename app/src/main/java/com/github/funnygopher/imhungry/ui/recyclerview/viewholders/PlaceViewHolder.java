@@ -1,15 +1,13 @@
 package com.github.funnygopher.imhungry.ui.recyclerview.viewholders;
 
-import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
+import com.github.funnygopher.imhungry.ui.widgets.PlaceDetailDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,24 +36,9 @@ public class PlaceViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(v.getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.place_detail_cardview);
-
-                TextView title = (TextView) dialog.findViewById(R.id.place_detail_card_title);
-                TextView priceDistance = (TextView) dialog.findViewById(R.id.place_detail_card_price_distance);
-                TextView description = (TextView) dialog.findViewById(R.id.place_detail_card_description);
-
-                title.setText(place.getName());
-                priceDistance.setText(Price.getName(place.getPrice()) + " - " + "2.0 mi");
-                description.setText(place.getDescription());
-
-                dialog.show();
-
-                Window window = dialog.getWindow();
-                if (window != null) {
-                    window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                }
+                new PlaceDetailDialog(v.getContext())
+                        .bind(place)
+                        .show();
             }
         });
     }

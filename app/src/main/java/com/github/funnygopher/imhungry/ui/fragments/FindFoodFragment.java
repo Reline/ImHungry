@@ -16,6 +16,7 @@ import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
 import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
 import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
+import com.github.funnygopher.imhungry.ui.PlaceCardViewHolder;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import butterknife.BindView;
@@ -116,14 +117,7 @@ public class FindFoodFragment extends Fragment {
 
         currentPlace = place;
 
-        TextView title = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_title);
-        TextView priceDistance = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_price_distance);
-        TextView description = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_description);
-
-        title.setText(place.getName());
-        priceDistance.setText(price + " - " + "2.0 mi");
-        description.setText(place.getDescription());
-
-        mPlaceDetail.setVisibility(View.VISIBLE);
+        PlaceCardViewHolder holder = new PlaceCardViewHolder(mPlaceDetail);
+        holder.bind(place);
     }
 }
