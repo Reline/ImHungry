@@ -2,6 +2,7 @@ package com.github.funnygopher.imhungry.ui.recyclerview.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -14,7 +15,7 @@ import xyz.projectplay.realmsearchadapter.RealmSearchAdapter;
 
 public class PlaceRecyclerAdapter extends RealmSearchAdapter<Place, PlaceViewHolder> {
 
-    public PlaceRecyclerAdapter(@NonNull Context context, @NonNull OrderedRealmCollection<Place> data, @NonNull String filterKey) {
+    public PlaceRecyclerAdapter(@NonNull Context context, OrderedRealmCollection<Place> data, @NonNull String filterKey) {
         super(context, data, filterKey);
     }
 
@@ -29,5 +30,11 @@ public class PlaceRecyclerAdapter extends RealmSearchAdapter<Place, PlaceViewHol
     public void onBindViewHolder(PlaceViewHolder viewHolder, int i) {
         Place place = getData().get(i);
         viewHolder.bind(place);
+    }
+
+    @Override
+    public void updateData(@Nullable OrderedRealmCollection<Place> data) {
+        super.updateData(data);
+        filter("");
     }
 }

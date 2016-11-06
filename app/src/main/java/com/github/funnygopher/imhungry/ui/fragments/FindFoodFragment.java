@@ -1,6 +1,7 @@
 package com.github.funnygopher.imhungry.ui.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -14,18 +15,18 @@ import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Distance;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
-import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
+import com.github.funnygopher.imhungry.presenters.FindFoodPresenter;
 import com.github.funnygopher.imhungry.ui.PlaceCardViewHolder;
+import com.github.funnygopher.imhungry.ui.views.FindFoodView;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FindFoodFragment extends Fragment {
+public class FindFoodFragment extends Fragment implements FindFoodView {
     
-    DatabaseAccessObject dao;
+    FindFoodPresenter presenter;
 
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
@@ -48,12 +49,16 @@ public class FindFoodFragment extends Fragment {
     Place currentPlace;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        presenter = new FindFoodPresenter();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_find_food, container, false);
         ButterKnife.bind(this, view);
-        setHasOptionsMenu(true);
-
-        dao = new RealmAccessObject();
 
         // The price slider and textview
         mPriceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
@@ -78,14 +83,20 @@ public class FindFoodFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dao.close();
+    public void onResume() {
+        super.onResume();
+        presenter.bindView(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unbindView();
     }
 
     @OnClick(R.id.find_food_button)
     void onFindFoodButtonClick() {
-        Place place = dao.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
+        Place place = presenter.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
         // Couldn't find a random place...
         String price = Price.getName(mPriceSlider.getIndex());
         String message = price.toLowerCase() + " place";

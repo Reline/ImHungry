@@ -9,19 +9,18 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.github.funnygopher.imhungry.R;
-import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
-import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
+import com.github.funnygopher.imhungry.presenters.NewPlacePresenter;
+import com.github.funnygopher.imhungry.ui.views.NewPlaceView;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewPlaceActivity extends AppCompatActivity {
+public class NewPlaceActivity extends AppCompatActivity implements NewPlaceView {
 
-    DatabaseAccessObject dao;
+    NewPlacePresenter presenter;
 
     @BindView(R.id.new_place_toolbar)
     Toolbar mToolbar;
@@ -44,7 +43,7 @@ public class NewPlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_place);
         ButterKnife.bind(this);
 
-        dao = new RealmAccessObject();
+        presenter = new NewPlacePresenter();
 
         mToolbar.setTitle(getString(R.string.new_place));
         setSupportActionBar(mToolbar);
@@ -61,21 +60,25 @@ public class NewPlaceActivity extends AppCompatActivity {
         mPriceText.setText(Price.getName(mPriceSlider.getIndex()));
     }
 
-    @OnClick(R.id.new_place_button_save)
-    void onSaveButtonClick() {
-        createPlace();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.bindView(this);
     }
 
-    void createPlace() {
-        String name = mNameEditText.getText().toString();
-        String desc = mDescEditText.getText().toString();
-        int price = Price.getValue(mPriceSlider.getIndex());
-        Place place = new Place(name, desc, price, "", false);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.unbindView();
+    }
 
-        dao.addPlace(place);
+    @OnClick(R.id.new_place_button_save)
+    void onSaveButtonClick() {
+        presenter.createPlace(mNameEditText.getText().toString(),
+                mDescEditText.getText().toString(),
+                mPriceSlider.getIndex());
 
         Intent intent = new Intent();
-        intent.putExtra("updateList", true);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

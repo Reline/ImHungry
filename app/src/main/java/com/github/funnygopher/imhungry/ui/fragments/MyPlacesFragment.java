@@ -13,23 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.funnygopher.imhungry.R;
-import com.github.funnygopher.imhungry.model.Place;
-import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
-import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
+import com.github.funnygopher.imhungry.presenters.MyPlacesPresenter;
 import com.github.funnygopher.imhungry.ui.activities.NewPlaceActivity;
 import com.github.funnygopher.imhungry.ui.recyclerview.adapters.PlaceRecyclerAdapter;
+import com.github.funnygopher.imhungry.ui.views.MyPlacesView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.OrderedRealmCollection;
 
-public class MyPlacesFragment extends Fragment {
+public class MyPlacesFragment extends Fragment implements MyPlacesView {
 
     public static final int REQUEST_NEW_PLACE = 0;
     private static final String FILTER_KEY = "name";
 
-    DatabaseAccessObject dao;
+    MyPlacesPresenter presenter;
 
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
@@ -37,22 +35,35 @@ public class MyPlacesFragment extends Fragment {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    PlaceRecyclerAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dao = new RealmAccessObject();
+        presenter = new MyPlacesPresenter();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_places, container, false);
         ButterKnife.bind(this, view);
-
-        PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(getContext(), (OrderedRealmCollection<Place>) dao.getAllPlaces(), FILTER_KEY);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new PlaceRecyclerAdapter(getContext(), null, FILTER_KEY);
         recyclerView.setAdapter(adapter);
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.bindView(this);
+        adapter.updateData(presenter.getAllPlaces());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unbindView();
     }
 
     @OnClick(R.id.my_places_fab)
@@ -67,7 +78,7 @@ public class MyPlacesFragment extends Fragment {
 
         if (resultCode == Activity.RESULT_CANCELED) {
             Snackbar.make(coordinatorLayout,
-                    "Cancelled new place",
+                    "Cancelled creating new place",
                     Snackbar.LENGTH_SHORT)
                     .setAction("dismiss", new View.OnClickListener() {
                         @Override
@@ -88,11 +99,5 @@ public class MyPlacesFragment extends Fragment {
                     })
                     .show();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dao.close();
     }
 }
