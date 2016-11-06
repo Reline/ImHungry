@@ -13,7 +13,8 @@ import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Distance;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.model.database.RealmService;
+import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
+import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import butterknife.BindView;
@@ -22,7 +23,7 @@ import butterknife.OnClick;
 
 public class FindFoodFragment extends Fragment {
     
-    RealmService realmService;
+    DatabaseAccessObject dao;
 
     @BindView(R.id.find_food_price_slider)
     Slider mPriceSlider;
@@ -47,7 +48,7 @@ public class FindFoodFragment extends Fragment {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
-        realmService = new RealmService();
+        dao = new RealmAccessObject();
 
         // The price slider and textview
         mPriceSlider.setOnSliderChangeListener(new Slider.OnSliderChangeListener() {
@@ -74,12 +75,12 @@ public class FindFoodFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realmService.close();
+        dao.close();
     }
 
     @OnClick(R.id.find_food_button)
     void onFindFoodButtonClick() {
-        Place place = realmService.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
+        Place place = dao.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
         // Couldn't find a random place...
         if (place == null) {
             Toast.makeText(getActivity(), "There is no " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();

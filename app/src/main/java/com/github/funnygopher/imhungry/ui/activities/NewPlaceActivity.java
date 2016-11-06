@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Place;
 import com.github.funnygopher.imhungry.model.Price;
-import com.github.funnygopher.imhungry.model.database.RealmService;
+import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
+import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
 import com.github.funnygopher.imhungry.ui.widgets.Slider;
 
 import butterknife.BindView;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 
 public class NewPlaceActivity extends AppCompatActivity {
 
-    RealmService realmService;
+    DatabaseAccessObject dao;
 
     @BindView(R.id.new_place_toolbar)
     Toolbar mToolbar;
@@ -43,7 +44,7 @@ public class NewPlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_place);
         ButterKnife.bind(this);
 
-        realmService = new RealmService();
+        dao = new RealmAccessObject();
 
         mToolbar.setTitle(getString(R.string.new_place));
         setSupportActionBar(mToolbar);
@@ -71,7 +72,7 @@ public class NewPlaceActivity extends AppCompatActivity {
         int price = Price.getValue(mPriceSlider.getIndex());
         Place place = new Place(name, desc, price, "", false);
 
-        realmService.addPlace(place);
+        dao.addPlace(place);
 
         Intent intent = new Intent();
         intent.putExtra("updateList", true);

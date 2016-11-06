@@ -12,20 +12,23 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.github.funnygopher.imhungry.R;
-import com.github.funnygopher.imhungry.model.database.RealmService;
+import com.github.funnygopher.imhungry.model.Place;
+import com.github.funnygopher.imhungry.model.database.DatabaseAccessObject;
+import com.github.funnygopher.imhungry.model.database.RealmAccessObject;
 import com.github.funnygopher.imhungry.ui.activities.NewPlaceActivity;
 import com.github.funnygopher.imhungry.ui.recyclerview.adapters.PlaceRecyclerAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.OrderedRealmCollection;
 
 public class MyPlacesFragment extends Fragment {
 
     public static final int REQUEST_NEW_PLACE = 0;
     private static final String FILTER_KEY = "name";
 
-    RealmService realmService;
+    DatabaseAccessObject dao;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -33,7 +36,7 @@ public class MyPlacesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realmService = new RealmService();
+        dao = new RealmAccessObject();
     }
 
     @Override
@@ -41,7 +44,7 @@ public class MyPlacesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_places, container, false);
         ButterKnife.bind(this, view);
 
-        PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(getContext(), realmService.getAllPlaces(), FILTER_KEY);
+        PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(getContext(), (OrderedRealmCollection<Place>) dao.getAllPlaces(), FILTER_KEY);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -72,6 +75,6 @@ public class MyPlacesFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realmService.close();
+        dao.close();
     }
 }

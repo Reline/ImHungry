@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 
 import com.github.funnygopher.imhungry.model.Place;
 
-import java.io.Closeable;
 import java.util.Random;
 
 import io.realm.OrderedRealmCollection;
@@ -12,12 +11,12 @@ import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
-public class RealmService implements Closeable {
+public class RealmAccessObject implements DatabaseAccessObject {
 
     private final Realm realm;
     private long lastPlaceId;
 
-    public RealmService() {
+    public RealmAccessObject() {
         realm = Realm.getDefaultInstance();
     }
 
