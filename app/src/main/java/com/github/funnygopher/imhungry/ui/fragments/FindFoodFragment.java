@@ -1,13 +1,14 @@
 package com.github.funnygopher.imhungry.ui.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.funnygopher.imhungry.R;
 import com.github.funnygopher.imhungry.model.Distance;
@@ -24,6 +25,9 @@ import butterknife.OnClick;
 public class FindFoodFragment extends Fragment {
     
     DatabaseAccessObject dao;
+
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
 
     @BindView(R.id.find_food_price_slider)
     Slider mPriceSlider;
@@ -82,11 +86,31 @@ public class FindFoodFragment extends Fragment {
     void onFindFoodButtonClick() {
         Place place = dao.getRandomPlace(Price.getValue(mPriceSlider.getIndex()));
         // Couldn't find a random place...
+        String price = Price.getName(mPriceSlider.getIndex());
+        String message = price.toLowerCase() + " place";
         if (place == null) {
-            Toast.makeText(getActivity(), "There is no " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout,
+                    "There is no " + message,
+                    Snackbar.LENGTH_SHORT)
+                    .setAction("dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // no-op
+                        }
+                    })
+                    .show();
             return;
         } else if (currentPlace != null && place.getId() == currentPlace.getId()) {
-            Toast.makeText(getActivity(), "This is the only " + Price.getName(mPriceSlider.getIndex()).toLowerCase() + " place!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout,
+                    "This is the only " + message,
+                    Snackbar.LENGTH_SHORT)
+                    .setAction("dismiss", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // no-op
+                        }
+                    })
+                    .show();
             return;
         }
 
@@ -97,7 +121,7 @@ public class FindFoodFragment extends Fragment {
         TextView description = (TextView) mPlaceDetail.findViewById(R.id.place_detail_card_description);
 
         title.setText(place.getName());
-        priceDistance.setText(Price.getName(mPriceSlider.getIndex()) + " - " + "2.0 mi");
+        priceDistance.setText(price + " - " + "2.0 mi");
         description.setText(place.getDescription());
 
         mPlaceDetail.setVisibility(View.VISIBLE);
