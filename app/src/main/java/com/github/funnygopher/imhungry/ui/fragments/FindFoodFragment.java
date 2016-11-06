@@ -74,7 +74,7 @@ public class FindFoodFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realmService.closeRealm();
+        realmService.close();
     }
 
     @OnClick(R.id.find_food_button)

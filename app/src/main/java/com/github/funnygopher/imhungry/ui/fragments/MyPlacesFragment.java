@@ -41,7 +41,7 @@ public class MyPlacesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_places, container, false);
         ButterKnife.bind(this, view);
 
-        PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(getContext(), realmService.getRealmInstance(), FILTER_KEY);
+        PlaceRecyclerAdapter adapter = new PlaceRecyclerAdapter(getContext(), realmService.getAllPlaces(), FILTER_KEY);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -72,6 +72,6 @@ public class MyPlacesFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        realmService.closeRealm();
+        realmService.close();
     }
 }
